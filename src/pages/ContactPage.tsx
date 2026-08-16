@@ -86,7 +86,6 @@ export default function ContactPage() {
                       type="text"
                       id="name"
                       required
-                      placeholder="e.g. Alex Rivera"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     />
@@ -98,7 +97,6 @@ export default function ContactPage() {
                       type="email"
                       id="email"
                       required
-                      placeholder="e.g. alex@company.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     />
@@ -111,7 +109,6 @@ export default function ContactPage() {
                     <input
                       type="text"
                       id="company"
-                      placeholder="e.g. Growth Brands Inc."
                       value={formData.company}
                       onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                     />
