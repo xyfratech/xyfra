@@ -4,9 +4,9 @@ import heroImage from '../assets/hero.png'
 import Mix from '../components/Mix'
 import SectionHeader from '../components/SectionHeader'
 import ServiceCard from '../components/ServiceCard'
+import StatsBand from '../components/StatsBand'
 import { capabilities, trustPoints } from '../data/hero'
 import {
-  companyStats,
   differentiators,
   industries,
   processSteps,
@@ -151,18 +151,8 @@ export default function HomePage() {
 
         </section>
 
-        {/* Numbers band */}
-        <section className="stats-band" data-reveal>
-          <div className="stats-band-inner">
-            {companyStats.map((stat, idx) => (
-              <div className="stat-block" key={stat.label} style={{ '--i': idx } as React.CSSProperties}>
-                <span className="stat-value">{stat.value}</span>
-                <span className="stat-label">{stat.label}</span>
-                <span className="stat-caption">{stat.caption}</span>
-              </div>
-            ))}
-          </div>
-        </section>
+        {/* Numbers band — figures count up once it scrolls into view */}
+        <StatsBand />
 
         {/* Latest works */}
         <section className="section-container">

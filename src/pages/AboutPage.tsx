@@ -1,14 +1,8 @@
 import { Link } from 'react-router-dom'
 import Mix from '../components/Mix'
 import SectionHeader from '../components/SectionHeader'
+import StatsBand from '../components/StatsBand'
 import { useScrollReveal } from '../hooks/useScrollReveal'
-
-const statsData = [
-  { value: '50+', label: 'Digital Products Shipped' },
-  { value: '99.9%', label: 'Uptime & Reliability SLA' },
-  { value: '100%', label: 'Guaranteed On-Time Delivery' },
-  { value: '4.9★', label: 'Average Client Rating' },
-]
 
 const pillars: {
   tag: string
@@ -77,23 +71,20 @@ export default function AboutPage() {
 
   return (
     <div className="page">
-      <section className="section-container">
+      {/* Header sits in its own container so the numbers band below can run
+          full-bleed, exactly as it does on the home page. */}
+      <section className="section-container about-intro">
         <SectionHeader
           tag="WHO WE ARE"
           title={[['Engineering', 'light'], ['& Digital', 'green'], ['Precision', 'box']]}
           subtitle="Xyfra is a full-cycle software engineering and digital growth studio dedicated to building robust products that scale seamlessly and dominate competitive markets."
         />
+      </section>
 
-        {/* Company Impact Numbers */}
-        <div className="about-stats-band" data-reveal>
-          {statsData.map((st) => (
-            <div className="about-stat-item" key={st.label}>
-              <strong className="about-stat-val">{st.value}</strong>
-              <span className="about-stat-lbl">{st.label}</span>
-            </div>
-          ))}
-        </div>
+      {/* Same figures and treatment as the home band, counting up on scroll */}
+      <StatsBand />
 
+      <section className="section-container about-body">
         {/* Core Capabilities & Engineering Pillars (No emojis) */}
         <div className="about-pillars-grid">
           {pillars.map((pillar, idx) => (

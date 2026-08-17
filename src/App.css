@@ -2795,44 +2795,18 @@
   color: var(--white-subtle);
 }
 
-/* About Us Section */
-.about-stats-band {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  padding: 24px 28px;
-  background: var(--bg-card);
-  border: 1px solid var(--green-border);
-  border-radius: 18px;
-  box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.7);
-  margin-bottom: 48px;
+/* About Us Section — the header and the body sit either side of the full-bleed
+   stats band, so their facing edges are trimmed to keep the gaps even. */
+.section-container.about-intro {
+  padding-bottom: 44px;
 }
 
-.about-stat-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 4px;
+.about-intro .section-header {
+  margin-bottom: 0;
 }
 
-.about-stat-item + .about-stat-item {
-  border-left: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.about-stat-val {
-  font-family: var(--mono);
-  font-size: 1.85rem;
-  font-weight: 800;
-  color: var(--green-glow);
-  line-height: 1.1;
-}
-
-.about-stat-lbl {
-  font-size: 0.78rem;
-  color: var(--white-subtle);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+.section-container.about-body {
+  padding-top: 56px;
 }
 
 .about-pillars-grid {
@@ -3069,13 +3043,6 @@
 }
 
 @media (max-width: 992px) {
-  .about-stats-band {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-  }
-  .about-stat-item:nth-child(2n+1) {
-    border-left: none;
-  }
   .commitments-grid {
     grid-template-columns: repeat(2, 1fr);
   }
