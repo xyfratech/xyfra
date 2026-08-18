@@ -2,6 +2,7 @@ import { useLayoutEffect } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import Navbar from './Navbar'
 import Footer from './Footer'
+import SplashIntro from './SplashIntro'
 
 /* Chrome shared by every route. <Outlet /> renders the matched page. */
 export default function Layout() {
@@ -22,6 +23,9 @@ export default function Layout() {
         <Outlet />
       </main>
       <Footer />
+      {/* Mounted with the chrome, so it plays on page load only — route
+          changes reuse this Layout and never replay it. */}
+      <SplashIntro />
     </>
   )
 }

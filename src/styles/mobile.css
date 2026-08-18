@@ -162,12 +162,19 @@
   }
 
   .filter-bar {
-    /* Swipe the filters sideways rather than wrapping to three rows */
+    /* Swipe the filters sideways rather than wrapping to three rows.
+       Bled out to both screen edges and re-padded: a chip that runs off the
+       edge of the phone reads as "more this way", where one sliced mid-word
+       against the section's inner padding just looks broken. */
     flex-wrap: nowrap;
     overflow-x: auto;
     justify-content: flex-start;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
+    margin-inline: -20px;
+    padding-inline: 20px;
+    scroll-snap-type: x proximity;
+    scroll-padding-left: 20px;
   }
 
   .filter-bar::-webkit-scrollbar {
@@ -176,6 +183,7 @@
 
   .filter-btn {
     flex: none;
+    scroll-snap-align: start;
   }
 }
 
@@ -243,6 +251,38 @@
 
   .section-container {
     padding: 44px 16px;
+  }
+
+  /* Half a card is not enough for these labels on a phone. The metric chip is
+     the secondary of the two (it already fades out when the card opens), so
+     it gives up its corner and the category gets the full width. */
+  .pcard-metric {
+    display: none;
+  }
+
+  .pcard-type {
+    max-width: calc(100% - 32px);
+  }
+
+  /* Track the narrower section padding so the strip still bleeds edge to edge */
+  .filter-bar {
+    margin-inline: -16px;
+    padding-inline: 16px;
+    scroll-padding-left: 16px;
+  }
+
+  /* 36px each side left barely 200px of usable width on a 320px phone */
+  .contact-info-panel,
+  .contact-form-panel {
+    padding: 24px 18px;
+  }
+
+  /* The address is a fixed-width token in a fluid column, so it is sized off
+     the viewport rather than stepped at another breakpoint: it stays on one
+     line down to 320px instead of splitting as "xyfratechnologies@gmai /
+     l.com". The cap hands it straight back to the base size. */
+  .info-val {
+    font-size: clamp(0.72rem, 3.3vw, 0.95rem);
   }
 }
 

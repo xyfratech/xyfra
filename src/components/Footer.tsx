@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import logo from '../assets/logo.png'
 import { navItems } from '../data/nav'
 import { servicesData } from '../data/services'
+import { socialLinks } from '../data/social'
 import Mix from './Mix'
 
 /* Deep-linked into the services page rather than given routes of their own —
@@ -34,6 +35,28 @@ export default function Footer() {
               Start a project
               <span aria-hidden="true">→</span>
             </Link>
+
+            {/* A channel with no URL yet is skipped rather than rendered dead */}
+            <ul className="footer-social">
+              {socialLinks
+                .filter((item) => item.href)
+                .map((item) => (
+                  <li key={item.label}>
+                    <a
+                      href={item.href}
+                      target="_blank"
+                      /* noreferrer implies noopener, but both are spelled out
+                         for the older browsers that only honour the latter. */
+                      rel="noopener noreferrer"
+                      aria-label={`Xyfra Technologies on ${item.label}`}
+                    >
+                      <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d={item.path} />
+                      </svg>
+                    </a>
+                  </li>
+                ))}
+            </ul>
           </div>
 
           <nav className="footer-col" data-reveal style={{ '--i': 1 } as React.CSSProperties}>

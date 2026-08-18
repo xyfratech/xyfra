@@ -7,7 +7,6 @@ const EMPTY_FORM = {
   email: '',
   company: '',
   service: 'Software Development',
-  budget: '$25k - $50k',
   message: '',
 }
 
@@ -128,20 +127,6 @@ export default function ContactPage() {
                       <option value="SEO Work">SEO Work</option>
                     </select>
                   </div>
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="budget">Estimated Budget</label>
-                  <select
-                    id="budget"
-                    value={formData.budget}
-                    onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
-                  >
-                    <option value="< $10k">&lt; $10k</option>
-                    <option value="$10k - $25k">$10k - $25k</option>
-                    <option value="$25k - $50k">$25k - $50k</option>
-                    <option value="$50k+">$50k+</option>
-                  </select>
                 </div>
 
                 <div className="form-group">

@@ -138,8 +138,17 @@ export default function Navbar() {
           ))}
         </nav>
 
-        <Link to="/contact" className="btn-connect nav-drawer-cta" tabIndex={menuOpen ? 0 : -1}>
-          <span>Get a Quote</span>
+        {/* Same tilting CTA as the desktop bar, stretched to the drawer width */}
+        <Link to="/contact" className="container-button nav-drawer-cta" tabIndex={menuOpen ? 0 : -1}>
+          <span className="hover bt-1" aria-hidden="true" />
+          <span className="hover bt-2" aria-hidden="true" />
+          <span className="hover bt-3" aria-hidden="true" />
+          <span className="hover bt-4" aria-hidden="true" />
+          <span className="hover bt-5" aria-hidden="true" />
+          <span className="hover bt-6" aria-hidden="true" />
+          <span className="btn-face">
+            <span className="btn-face-label">Get a Quote</span>
+          </span>
         </Link>
       </aside>
     </>

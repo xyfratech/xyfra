@@ -249,7 +249,9 @@
   border-color: var(--green-border);
 }
 
-.nav-drawer-cta {
+/* The drawer reuses the desktop tilting CTA, stretched to the panel width.
+   Compound selector so it outranks the 150px on .container-button. */
+.container-button.nav-drawer-cta {
   margin-top: auto;
   width: 100%;
 }
@@ -436,78 +438,6 @@
   .container-button .hover:hover ~ .btn-face {
     transform: none;
   }
-}
-
-/* Connect Button CTA */
-.btn-connect {
-  --wave: linear-gradient(120deg, #00b379 0%, #00976e 45%, #006a53 100%);
-  width: 150px;
-  height: 44px;
-  color: var(--white);
-  z-index: 1;
-  display: flex;
-  background: var(--bg-black);
-  border: 1px solid rgba(0, 179, 121, 0.35);
-  border-radius: 8px;
-  position: relative;
-  cursor: pointer;
-  overflow: hidden;
-  text-decoration: none;
-  flex: none;
-  transition: border-color 0.25s ease, box-shadow 0.25s ease;
-}
-
-.btn-connect:hover,
-.btn-connect:focus-visible {
-  border-color: var(--green-border-hover);
-  box-shadow: 0 8px 26px -10px rgba(0, 179, 121, 0.8);
-}
-
-.btn-connect span {
-  margin: 0 auto;
-  align-self: center;
-  font-family: var(--display);
-  font-size: 15px;
-  font-weight: 700;
-  text-align: center;
-  letter-spacing: 0.04em;
-}
-
-.btn-connect::before,
-.btn-connect::after {
-  position: absolute;
-  content: '';
-  width: 100%;
-  height: 10%;
-  z-index: -1;
-  background: var(--wave);
-  transition: 0.2s ease;
-  clip-path: polygon(
-    0% 74%, 4% 75%, 8% 76%, 11% 77%, 15% 78%, 20% 78%, 25% 77%, 32% 77%,
-    37% 75%, 40% 74%, 43% 74%, 46% 73%, 52% 72%, 57% 72%, 65% 74%, 66% 75%,
-    71% 78%, 75% 82%, 81% 86%, 83% 88%, 88% 91%, 90% 94%, 94% 96%, 98% 98%,
-    100% 100%, 82% 100%, 0 100%
-  );
-}
-
-.btn-connect::after {
-  bottom: 0;
-}
-
-.btn-connect::before {
-  top: 0;
-  transform: rotate(180deg);
-}
-
-.btn-connect:hover::before,
-.btn-connect:hover::after,
-.btn-connect:focus-visible::before,
-.btn-connect:focus-visible::after {
-  height: 80%;
-}
-
-.nav-drawer .btn-connect {
-  width: 100%;
 }
 
 /* General Buttons */
@@ -1428,7 +1358,7 @@
 /* Process — numbered steps joined by a hairline */
 .process-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(230px, 100%), 1fr));
   gap: 20px;
   list-style: none;
   margin: 0;
@@ -1625,7 +1555,7 @@
 /* Testimonials */
 .testimonial-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(290px, 100%), 1fr));
   gap: 20px;
 }
 
@@ -1804,7 +1734,7 @@
 /* Services Grid */
 .services-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr));
   gap: 28px;
 }
 
@@ -2266,7 +2196,7 @@
    ========================================================================== */
 .works-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
   gap: 26px;
 }
 
@@ -2352,6 +2282,13 @@
   padding: 5px 11px;
   border-radius: 999px;
   backdrop-filter: blur(10px);
+  /* Absolutely positioned and pinned to opposite corners, so nothing stops
+     them sliding under each other once the card narrows — the label then
+     reads as cut in half. Half the card each, ellipsis past that. */
+  max-width: calc(50% - 20px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .pcard-type {
@@ -2757,7 +2694,7 @@
 
 .palette-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
   gap: 16px;
   margin-top: 24px;
 }
@@ -3137,6 +3074,9 @@
   font-weight: 600;
   color: var(--white);
   text-decoration: none;
+  /* The address is one unbreakable token; its min-content width was holding
+     the whole panel wider than a 320px phone. */
+  overflow-wrap: anywhere;
 }
 
 .info-val:hover {
@@ -3179,6 +3119,7 @@
 .form-group select,
 .form-group textarea {
   width: 100%;
+  min-width: 0;
   padding: 12px 16px;
   border-radius: 10px;
   background: rgba(5, 11, 9, 0.8);
@@ -3634,5 +3575,139 @@
     font-size: 0.8rem;
     padding: 7px 14px;
     white-space: nowrap;
+  }
+}
+
+/* ==========================================================================
+   Opening splash
+   --------------------------------------------------------------------------
+   Full black, the mark centred on it, then the mark flies into the navbar
+   slot while the page fades up underneath it. SplashIntro sets the flight
+   geometry from the live navbar rect, so the landing is pixel-exact on phone
+   and desktop without a breakpoint of its own — this sheet owns the paint,
+   the resting position and the easing.
+
+   Two classes drive it, both on <html>:
+     .intro-running    black is up, page is held back
+     .intro-revealing  the flight has launched, page fades in behind it
+   ========================================================================== */
+.intro-cover {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+}
+
+/* `#root > *` in index.css pins every direct child to `position: relative;
+   z-index: 1`, and an id outranks a class — without this the cover collapses
+   to a zero-height block in the flex column and paints nothing. Same reason
+   .navbar, .nav-backdrop and .nav-drawer are re-asserted above. */
+#root > .intro-cover {
+  position: fixed;
+  z-index: 200;
+}
+
+/* Kept separate from the mark so the page can fade up *through* the flight —
+   if the mark lived on the fading layer it would dissolve mid-air. */
+.intro-veil {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  transition: opacity 760ms ease;
+}
+
+.intro-revealing .intro-veil {
+  opacity: 0;
+}
+
+.intro-mark {
+  position: fixed;
+  /* Dead centre until JS parks it over the navbar slot, so a failed
+     measurement still reads as a deliberate full-screen splash. */
+  top: 50%;
+  left: 50%;
+  width: min(62vw, 420px);
+  height: auto;
+  transform: translate(-50%, -50%);
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 420ms ease;
+  filter: drop-shadow(0 0 42px rgba(0, 179, 121, 0.45));
+  will-change: transform, opacity;
+}
+
+.intro-mark.is-lit {
+  opacity: 1;
+}
+
+/* The navbar holds its slot empty until the flying mark lands on it */
+.intro-running .navbar .brand-logo {
+  opacity: 0;
+}
+
+/* Nothing of the page reads through the black — the section is held at zero
+   and then faded up with the flight, rather than merely being uncovered.
+   Opacity only: a transform here would become the containing block for every
+   fixed-position child inside a page. */
+.intro-running main {
+  opacity: 0;
+}
+
+/* Transition only on the way back up. On the base rule it would also animate
+   the *hide*, fading the home section out through the first frames instead of
+   holding it at zero from the start. */
+.intro-revealing main {
+  opacity: 1;
+  transition: opacity 820ms ease;
+}
+
+/* The fade is the whole point of the sequence, so it stays; only the flight
+   is dropped for reduced motion, and that is handled in SplashIntro. */
+
+/* Social row — sits under the footer CTA in the brand column */
+.footer-social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.footer-social a {
+  display: grid;
+  place-items: center;
+  /* 44px is the comfortable minimum for a thumb, and these are the only
+     icon-sized targets in the footer. */
+  width: 44px;
+  height: 44px;
+  border-radius: 13px;
+  border: 1px solid var(--green-border);
+  background: var(--green-bg-subtle);
+  color: var(--white-muted);
+  transition: color 0.25s ease, border-color 0.25s ease, background 0.25s ease,
+    transform 0.25s ease;
+}
+
+.footer-social a:hover,
+.footer-social a:focus-visible {
+  color: var(--green-glow);
+  border-color: var(--green-border-hover);
+  background: rgba(0, 179, 121, 0.16);
+  transform: translateY(-2px);
+}
+
+.footer-social a:focus-visible {
+  outline: 2px solid var(--green-glow);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer-social a {
+    transition: none;
+  }
+
+  .footer-social a:hover,
+  .footer-social a:focus-visible {
+    transform: none;
   }
 }
